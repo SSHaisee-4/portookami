@@ -1,72 +1,43 @@
-/* ========== CATEGORY FILTER (TAMBAH INI) ========== */
+/* ========== TAMBAH INI SAJA (Filter Category) ========== */
 .category-filter {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin: 50px 0;
+    margin: 50px 0 30px 0;
     flex-wrap: wrap;
-    animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .category-btn {
-    padding: 14px 28px;
-    background: rgba(255,255,255,0.15);
+    padding: 12px 25px;
+    background: rgba(255,255,255,0.2);
     color: white;
     border: 2px solid rgba(255,255,255,0.4);
-    border-radius: 50px;
+    border-radius: 30px;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 0.95rem;
-    letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .category-btn:hover,
 .category-btn.active {
-    background: rgba(255,255,255,0.3);
-    border-color: rgba(255,255,255,0.8);
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    color: white;
+    background: rgba(255,255,255,0.35);
+    border-color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* Portfolio Filter Animation */
 .portfolio-item {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.4s ease;
 }
 
 .portfolio-item.hidden {
     opacity: 0;
-    transform: scale(0.8) translateY(30px);
+    transform: scale(0.8);
 }
 
-/* Responsive Category Buttons */
 @media (max-width: 768px) {
-    .category-filter {
-        gap: 10px;
-        margin: 30px 0;
-    }
-    
-    .category-btn {
-        padding: 12px 20px;
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .category-filter {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .category-btn {
-        width: 200px;
-        padding: 14px 20px;
-    }
+    .category-filter { gap: 10px; }
+    .category-btn { padding: 10px 20px; font-size: 0.85rem; }
 }
