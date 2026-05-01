@@ -6,18 +6,12 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    /* WARNA BARU - Kombinasi 5 warna kamu */
     background: linear-gradient(135deg, 
-        #44786a 0%,      /* teal-green */
-        #4d9e9b 20%,     /* teal */
-        #8f704b 40%,     /* warm brown */
-        #daae6d 60%,     /* golden */
-        #89e3f6 80%,     /* sky blue */
-        #daae6d 100%     /* golden */
+        #44786a 0%, #4d9e9b 20%, #8f704b 40%, 
+        #daae6d 60%, #89e3f6 80%, #daae6d 100%
     );
     min-height: 100vh;
     overflow-x: hidden;
-    /* Animated gradient untuk efek smooth */
     background-size: 400% 400%;
     animation: cyberGradient 20s ease infinite;
 }
@@ -52,7 +46,6 @@ body {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    /* Border warna baru - golden/teal */
     border: 5px solid rgba(218, 174, 109, 0.5);
     box-shadow: 0 20px 40px rgba(68, 120, 106, 0.5);
     object-fit: cover;
@@ -62,7 +55,6 @@ body {
 
 .profile-img:hover {
     transform: scale(1.05);
-    /* Border glow effect */
     border-color: rgba(218, 174, 109, 0.8);
     box-shadow: 0 0 30px rgba(218, 174, 109, 0.4), 0 20px 40px rgba(68, 120, 106, 0.5);
 }
@@ -70,7 +62,6 @@ body {
 .name {
     font-size: 3rem;
     font-weight: 700;
-    /* Gradient text dengan warna baru */
     background: linear-gradient(45deg, #89e3f6, #daae6d, #ffffff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -81,7 +72,6 @@ body {
 
 .tagline {
     font-size: 1.2rem;
-    /* Warna tagline - sky blue */
     color: rgba(137, 227, 246, 0.95);
     font-weight: 400;
     letter-spacing: 1px;
@@ -116,7 +106,6 @@ body {
 .youtube { background: linear-gradient(45deg, #FF0000, #8f704b); }
 .instagram { background: linear-gradient(45deg, #daae6d, #89e3f6, #4d9e9b); }
 
-/* Filter Buttons */
 .filter-container {
     display: flex;
     justify-content: center;
@@ -128,7 +117,6 @@ body {
 
 .filter-btn {
     background: rgba(255, 255, 255, 0.12);
-    /* Border warna baru */
     border: 2px solid rgba(137, 227, 246, 0.4);
     color: #89e3f6;
     padding: 12px 24px;
@@ -173,7 +161,6 @@ body {
     position: relative;
     border-radius: 20px;
     overflow: hidden;
-    /* Shadow disesuaikan dengan warna baru */
     box-shadow: 0 20px 40px rgba(68, 120, 106, 0.6);
     transition: all 0.4s ease;
     cursor: pointer;
@@ -209,7 +196,6 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    /* Overlay gradient dengan warna baru */
     background: linear-gradient(45deg, 
         rgba(68, 120, 106, 0.9), 
         rgba(143, 112, 75, 0.9),
@@ -243,7 +229,7 @@ body {
     box-shadow: 0 10px 25px rgba(218, 174, 109, 0.7);
 }
 
-/* TikTok Video Style - TAMBAHAN BARU ✅ */
+/* TikTok Video Style - THUMBNAIL ASLI ✅ */
 .tiktok-video .overlay {
     background: linear-gradient(45deg, 
         rgba(0, 0, 0, 0.95), 
@@ -261,7 +247,6 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7) !important;
 }
 
-/* Animations */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -273,7 +258,6 @@ body {
     }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
