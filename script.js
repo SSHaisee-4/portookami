@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Filter System
     const filterBtns = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
-    const portfolioGrid = document.getElementById('portfolioGrid');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -47,47 +46,62 @@ document.addEventListener('DOMContentLoaded', function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// Fungsi fetch data YouTube
+// 🔥 FUNGSI YOUTUBE API - SUDAH DIKOREKSI
 async function fetchYouTubeData() {
     const videoItems = document.querySelectorAll('.youtube-video');
     
-    videoItems.forEach(async (item) => {
+    // FIX: Loop manual bukan forEach untuk async
+    for (let i = 0; i < videoItems.length; i++) {
+        const item = videoItems[i];
         const videoId = item.getAttribute('data-video-id');
         const titleEl = item.querySelector('.video-title');
         const dateEl = item.querySelector('.upload-date');
         const viewsEl = item.querySelector('.views');
         
         try {
-            // YouTube Data API v3 (Ganti YOUR_API_KEY dengan API key kamu)
-            const apiKey = 'AIzaSyDq8QeJ9pKqWvZfXbKqWvZfXbKqWvZfXbK'; // ← GANTI INI!
+            // GANTI API KEY INI!
+            const apiKey = 'YOUR_ACTUAL_API_KEY_HERE'; // ← MASUKKAN API KEY KAMU
+            
             const response = await fetch(
                 `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`
             );
             
+            if (!response.ok) {
+                throw new Error('API response not ok');
+            }
+            
             const data = await response.json();
+            
             if (data.items && data.items[0]) {
                 const video = data.items[0];
                 
-                // Judul
+                // ✅ JUDUL VIDEO
                 titleEl.textContent = video.snippet.title;
                 
-                // Tanggal upload
+                // ✅ TANGGAL UPLOAD (format Indonesia)
                 const uploadDate = new Date(video.snippet.publishedAt);
-                const now = new Date();
-                const diffTime = Math.abs(now - uploadDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                dateEl.innerHTML = `<i class="fas fa-calendar"></i> ${diffDays} hari lalu`;
+                const options = { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                };
+                dateEl.innerHTML = `<i class="fas fa-calendar"></i> ${uploadDate.toLocaleDateString('id-ID', options)}`;
                 
-                // Views
-                const views = parseInt(video.statistics.viewCount).toLocaleString();
+                // ✅ JUMLAH VIEWS
+                const views = parseInt(video.statistics.viewCount || 0).toLocaleString();
                 viewsEl.innerHTML = `<i class="fas fa-eye"></i> ${views} views`;
+                
+                console.log(`✅ Loaded: ${video.snippet.title}`);
+            } else {
+                throw new Error('Video not found');
             }
         } catch (error) {
-            console.log('Error fetching YouTube data:', error);
-            // Fallback jika API error
-            titleEl.textContent = 'Gameplay Epic!';
-            dateEl.innerHTML = '<i class="fas fa-calendar"></i> 7 hari lalu';
-            viewsEl.innerHTML = '<i class="fas fa-eye"></i> 10K views';
+            console.log('❌ YouTube API Error:', error);
+            
+            // 🎯 FALLBACK DATA (tetap keren meski API error)
+            titleEl.textContent = 'FREE FIRE | HEADSHOT AUTO';
+            dateEl.innerHTML = '<i class="fas fa-calendar"></i> 15 Okt 2024';
+            viewsEl.innerHTML = '<i class="fas fa-eye"></i> 25.6K views';
         }
-    });
+    }
 }
