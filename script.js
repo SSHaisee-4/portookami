@@ -1,108 +1,107 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('OkamiPorto loaded with AUTO VIDEO TITLES! 🚀');
+    console.log('OkamiPorto - AUTO TITLES ACTIVATED! 🔥');
     
-    // ISI NAMA DAN TAGLINE
+    // Update nama & tagline
     document.getElementById('nama').textContent = 'OKAMI';
     document.getElementById('tagline').textContent = 'Video Editor | Content Creator';
     
-    // Efek foto profil
+    // Profile click effect
     const profileImg = document.getElementById('profileImg');
     profileImg.addEventListener('click', function() {
         this.style.transform = 'scale(0.95) rotate(5deg)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1.05)';
-        }, 150);
-        setTimeout(() => {
-            this.style.transform = '';
-        }, 300);
+        setTimeout(() => this.style.transform = 'scale(1.05)', 150);
+        setTimeout(() => this.style.transform = '', 300);
     });
 
-    // === AUTO VIDEO TITLE SYSTEM ===
+    // === SUPERIOR VIDEO TITLE SYSTEM ===
     const loadingIndicator = document.getElementById('loadingIndicator');
     
-    async function fetchYouTubeTitle(videoId) {
-        try {
-            // Method 1: YouTube Data API v3 (GRATIS - 10k quota/hari)
-            const apiKey = 'AIzaSyB8O9uQ-NfxLxrqN8v0J9eXz6z6z6z6z6z'; // Ganti dengan API Key Anda
-            const response = await fetch(
-                `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`
-            );
-            const data = await response.json();
+    // Proxy gratis untuk bypass CORS (GitHub Pages friendly)
+    const PROXY_URL = 'https://api.allorigins.win/raw?url=';
+    
+    async function getYouTubeTitle(videoId) {
+        const methods = [
+            // Method 1: YouTube oEmbed ( paling reliable )
+            () => fetch(`${PROXY_URL}${encodeURIComponent(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`)}`)
+                .then(r => r.json())
+                .then(data => data.title)
+                .catch(() => null),
             
-            if (data.items && data.items[0]) {
-                return data.items[0].snippet.title;
+            // Method 2: Noembed (backup)
+            () => fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`)
+                .then(r => r.json())
+                .then(data => data.title)
+                .catch(() => null),
+            
+            // Method 3: RapidAPI free tier
+            () => fetch('https://youtube-video-title.p.rapidapi.com/lite/?video_id=' + videoId, {
+                headers: {
+                    'X-RapidAPI-Key': 'guest',
+                    'X-RapidAPI-Host': 'youtube-video-title.p.rapidapi.com'
+                }
+            }).then(r => r.json()).then(data => data.title).catch(() => null)
+        ];
+
+        for (let method of methods) {
+            try {
+                const title = await method();
+                if (title) return title;
+            } catch (e) {
+                console.log('Method failed:', e);
             }
-        } catch (e) {
-            console.log('API failed, trying oEmbed...');
         }
-
-        // Method 2: YouTube oEmbed (Tidak perlu API Key)
-        try {
-            const oembedResponse = await fetch(
-                `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
-            );
-            const oembedData = await oembedResponse.json();
-            return oembedData.title;
-        } catch (e) {
-            console.log('oEmbed failed, trying scraper...');
-        }
-
-        // Method 3: Simple scraper (backup)
-        return `YouTube Video - ${videoId}`;
+        
+        return `🎮 YouTube Video #${videoId.slice(0,8)}`;
     }
 
-    async function fetchTikTokTitle(tiktokUrl) {
+    // TikTok title (bonus)
+    async function getTikTokTitle(tiktokUrl) {
         try {
-            // RapidAPI TikTok scraper atau serper.dev
-            const response = await fetch('https://youtube-video-title.p.rapidapi.com/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', // Optional
-                    'X-RapidAPI-Host': 'youtube-video-title.p.rapidapi.com'
-                },
-                body: JSON.stringify({ url: tiktokUrl })
-            });
-            const data = await response.json();
-            return data.title || 'TikTok Video';
-        } catch (e) {
+            const response = await fetch(`${PROXY_URL}${encodeURIComponent(tiktokUrl)}`);
+            const html = await response.text();
+            const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+            return titleMatch ? titleMatch[1].replace('TikTok - ', '') : 'TikTok Video';
+        } catch {
             return 'TikTok Video';
         }
     }
 
-    // Load semua video titles
-    async function loadVideoTitles() {
-        const videoItems = document.querySelectorAll('.youtube-video[data-video-id]');
+    // 🔥 MAIN FUNCTION - Load semua titles
+    async function loadAllTitles() {
+        console.log('🔄 Loading video titles...');
+        const videoItems = document.querySelectorAll('[data-video-id]');
         
-        for (let item of videoItems) {
+        // Process sequentially untuk smooth loading
+        for (let i = 0; i < videoItems.length; i++) {
+            const item = videoItems[i];
             const videoId = item.getAttribute('data-video-id');
-            const titleElement = item.querySelector('.video-title');
+            const titleEl = item.querySelector('.video-title');
             
-            if (videoId) {
+            if (videoId && titleEl.classList.contains('loading')) {
                 try {
-                    const title = await fetchYouTubeTitle(videoId);
-                    titleElement.textContent = title;
-                    titleElement.classList.remove('loading');
+                    titleEl.innerHTML = '⏳ Loading...';
+                    const title = await getYouTubeTitle(videoId);
+                    titleEl.textContent = title;
+                    titleEl.classList.remove('loading');
+                    console.log(`✅ Loaded: ${title.substring(0, 30)}...`);
                 } catch (error) {
-                    titleElement.textContent = `Video ${videoId}`;
-                    titleElement.classList.remove('loading');
+                    titleEl.textContent = `🎮 Video #${videoId.slice(0,8)}`;
+                    titleEl.classList.remove('loading');
                 }
             }
         }
         
-        // Hide loading indicator
-        setTimeout(() => {
-            loadingIndicator.classList.add('hidden');
-        }, 1000);
+        // Hide loading setelah selesai
+        loadingIndicator.classList.add('hidden');
+        console.log('🎉 All titles loaded!');
     }
 
-    // Mulai load titles setelah 1 detik
-    setTimeout(loadVideoTitles, 1000);
+    // Start loading after page ready
+    setTimeout(loadAllTitles, 800);
 
-    // === FILTER SYSTEM (tetap sama) ===
+    // === FILTER SYSTEM ===
     const filterBtns = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
-    const portfolioGrid = document.getElementById('portfolioGrid');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -113,11 +112,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             portfolioItems.forEach((item, index) => {
                 const itemCategory = item.classList[1];
-                
                 if (filterValue === 'all' || itemCategory === filterValue) {
-                    setTimeout(() => {
-                        item.classList.remove('hidden');
-                    }, index * 50);
+                    setTimeout(() => item.classList.remove('hidden'), index * 50);
                 } else {
                     item.classList.add('hidden');
                 }
@@ -125,13 +121,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Smooth scroll
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Error handling untuk gambar yang gagal load
+    // Image error fallback
     document.querySelectorAll('img').forEach(img => {
         img.onerror = function() {
-            this.src = 'https://via.placeholder.com/400x250/44786a/ffffff?text=No+Image';
+            this.src = `https://via.placeholder.com/400x250/44786a/ffffff?text=No+Preview`;
         };
     });
+
+    // Auto refresh titles setiap 30 detik (opsional)
+    setInterval(() => {
+        const loadingTitles = document.querySelectorAll('.video-title.loading');
+        if (loadingTitles.length > 0) loadAllTitles();
+    }, 30000);
 });
