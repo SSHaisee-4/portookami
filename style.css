@@ -1,43 +1,67 @@
-/* ========== TAMBAH INI SAJA (Filter Category) ========== */
+/* ========== CATEGORY FILTER - FINAL VERSION ========== */
 .category-filter {
     display: flex;
     justify-content: center;
     gap: 15px;
     margin: 50px 0 30px 0;
     flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .category-btn {
     padding: 12px 25px;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.15);
     color: white;
     border: 2px solid rgba(255,255,255,0.4);
     border-radius: 30px;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    transition: all 0.3s ease;
     font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
 
 .category-btn:hover,
 .category-btn.active {
-    background: rgba(255,255,255,0.35);
-    border-color: white;
+    background: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.8);
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
 
+/* Filter Animation */
 .portfolio-item {
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .portfolio-item.hidden {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.85) translateY(20px);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-    .category-filter { gap: 10px; }
-    .category-btn { padding: 10px 20px; font-size: 0.85rem; }
+    .category-filter {
+        gap: 12px;
+        margin: 40px 0 25px 0;
+    }
+    .category-btn {
+        padding: 11px 22px;
+        font-size: 0.88rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-filter {
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .category-btn {
+        width: 220px;
+        padding: 13px 25px;
+        font-size: 0.9rem;
+    }
 }
