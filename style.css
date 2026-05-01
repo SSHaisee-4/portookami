@@ -243,6 +243,24 @@ body {
     box-shadow: 0 10px 25px rgba(218, 174, 109, 0.7);
 }
 
+/* TikTok Video Style - TAMBAHAN BARU ✅ */
+.tiktok-video .overlay {
+    background: linear-gradient(45deg, 
+        rgba(0, 0, 0, 0.95), 
+        rgba(218, 174, 109, 0.9),
+        rgba(137, 227, 246, 0.8)
+    ) !important;
+}
+
+.tiktok-video .view-btn {
+    background: linear-gradient(45deg, #000000, #daae6d) !important;
+    color: white !important;
+}
+
+.tiktok-video .view-btn:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7) !important;
+}
+
 /* Animations */
 @keyframes fadeInUp {
     from {
