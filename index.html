@@ -9,87 +9,75 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="profile">
-                <img src="profile.jpg" alt="Foto Profil OKAMI" class="profile-img" id="profileImg">
-                <h1 class="name" id="nama">OKAMI</h1>
-                <p class="tagline" id="tagline">Video Editor | Content Creator</p>
+    <!-- Header Section - Persis Zenkaiedits -->
+    <header class="header-section">
+        <div class="header-content">
+            <h1 class="main-name">OKAMI</h1>
+            <div class="social-container">
+                <a href="https://tiktok.com/@username" target="_blank" class="social-link tiktok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://youtube.com/@username" target="_blank" class="social-link youtube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://instagram.com/username" target="_blank" class="social-link instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
             </div>
-        </header>
-
-        <!-- Social Links -->
-        <div class="social-links">
-            <a href="https://tiktok.com/@username" target="_blank" class="social-btn tiktok">
-                <i class="fab fa-tiktok"></i>
-            </a>
-            <a href="https://youtube.com/@username" target="_blank" class="social-btn youtube">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://instagram.com/username" target="_blank" class="social-btn instagram">
-                <i class="fab fa-instagram"></i>
-            </a>
         </div>
+    </header>
 
-        <!-- Filter Buttons -->
+    <!-- Filter Section - Persis Zenkaiedits -->
+    <div class="filter-wrapper">
         <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">
-                <i class="fas fa-th-large"></i> All
-            </button>
-            <button class="filter-btn" data-filter="script-shorts">
-                <i class="fas fa-code"></i> Script Shorts
-            </button>
-            <button class="filter-btn" data-filter="gameplay">
-                <i class="fas fa-gamepad"></i> Gameplay
-            </button>
-            <button class="filter-btn" data-filter="other">
-                <i class="fas fa-star"></i> Other
-            </button>
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="script-shorts">Script Shorts</button>
+            <button class="filter-btn" data-filter="gameplay">Gameplay</button>
+            <button class="filter-btn" data-filter="other">Other</button>
+        </div>
+    </div>
+
+    <!-- Portfolio Grid -->
+    <div class="portfolio-grid" id="portfolioGrid">
+        <!-- Script Shorts -->
+        <div class="portfolio-item script-shorts">
+            <img src="portfolio/1.jpg" alt="Script Shorts 1">
+            <div class="overlay">
+                <a href="portfolio/1.jpg" class="view-btn" target="_blank">Lihat</a>
+            </div>
+        </div>
+        <div class="portfolio-item script-shorts">
+            <img src="portfolio/2.jpg" alt="Script Shorts 2">
+            <div class="overlay">
+                <a href="portfolio/2.jpg" class="view-btn" target="_blank">Lihat</a>
+            </div>
         </div>
 
-        <!-- Portfolio Grid -->
-        <div class="portfolio-grid" id="portfolioGrid">
-            <!-- Script Shorts -->
-            <div class="portfolio-item script-shorts">
-                <img src="portfolio/1.jpg" alt="Script Shorts 1">
-                <div class="overlay">
-                    <a href="portfolio/1.jpg" class="view-btn" target="_blank">Lihat</a>
-                </div>
+        <!-- Gameplay -->
+        <div class="portfolio-item gameplay">
+            <img src="portfolio/3.jpg" alt="Gameplay 1">
+            <div class="overlay">
+                <a href="portfolio/3.jpg" class="view-btn" target="_blank">Lihat</a>
             </div>
-            <div class="portfolio-item script-shorts">
-                <img src="portfolio/2.jpg" alt="Script Shorts 2">
-                <div class="overlay">
-                    <a href="portfolio/2.jpg" class="view-btn" target="_blank">Lihat</a>
-                </div>
+        </div>
+        <div class="portfolio-item gameplay">
+            <img src="portfolio/4.jpg" alt="Gameplay 2">
+            <div class="overlay">
+                <a href="portfolio/4.jpg" class="view-btn" target="_blank">Lihat</a>
             </div>
+        </div>
 
-            <!-- Gameplay -->
-            <div class="portfolio-item gameplay">
-                <img src="portfolio/3.jpg" alt="Gameplay 1">
-                <div class="overlay">
-                    <a href="portfolio/3.jpg" class="view-btn" target="_blank">Lihat</a>
-                </div>
+        <!-- Other -->
+        <div class="portfolio-item other">
+            <img src="portfolio/5.jpg" alt="Other 1">
+            <div class="overlay">
+                <a href="portfolio/5.jpg" class="view-btn" target="_blank">Lihat</a>
             </div>
-            <div class="portfolio-item gameplay">
-                <img src="portfolio/4.jpg" alt="Gameplay 2">
-                <div class="overlay">
-                    <a href="portfolio/4.jpg" class="view-btn" target="_blank">Lihat</a>
-                </div>
-            </div>
-
-            <!-- Other -->
-            <div class="portfolio-item other">
-                <img src="portfolio/5.jpg" alt="Other 1">
-                <div class="overlay">
-                    <a href="portfolio/5.jpg" class="view-btn" target="_blank">Lihat</a>
-                </div>
-            </div>
-            <div class="portfolio-item other">
-                <img src="portfolio/6.jpg" alt="Other 2">
-                <div class="overlay">
-                    <a href="portfolio/6.jpg" class="view-btn" target="_blank">Lihat</a>
-                </div>
+        </div>
+        <div class="portfolio-item other">
+            <img src="portfolio/6.jpg" alt="Other 2">
+            <div class="overlay">
+                <a href="portfolio/6.jpg" class="view-btn" target="_blank">Lihat</a>
             </div>
         </div>
     </div>
