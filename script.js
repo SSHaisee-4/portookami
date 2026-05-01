@@ -1,7 +1,7 @@
 // Ganti teks secara dinamis
 document.addEventListener('DOMContentLoaded', function() {
     // Edit nama dan tagline
-    document.getElementById('nama').textContent = 'Nama Kamu';
+    document.getElementById('nama').textContent = 'OKAMI';
     document.getElementById('tagline').textContent = 'Video Editor | Content Creator';
     
     // Efek klik foto profil
