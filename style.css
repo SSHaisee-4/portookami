@@ -1,66 +1,122 @@
-/* Video Title Styles */
-.video-title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
-    color: #ffffff;
-    padding: 20px 20px 25px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    line-height: 1.3;
-    text-align: center;
-    transform: translateY(100%);
-    transition: all 0.3s ease;
-    max-height: 80px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    z-index: 2;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 OkamiPorto - AUTO VIDEO TITLES v2.0 ACTIVATED!');
+    
+    // Update nama & tagline
+    document.getElementById('nama').textContent = 'OKAMI';
+    document.getElementById('tagline').textContent = 'Video Editor | Content Creator';
+    
+    // Profile click effect
+    document.getElementById('profileImg').addEventListener('click', function() {
+        this.style.transform = 'scale(0.95) rotate(5deg)';
+        setTimeout(() => this.style.transform = 'scale(1.05)', 150);
+        setTimeout(() => this.style.transform = '', 300);
+    });
 
-.portfolio-item:hover .video-title {
-    transform: translateY(0);
-    padding-bottom: 30px;
-}
+    // === ULTIMATE VIDEO TITLE SYSTEM ===
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    
+    // Multiple working methods (No API key needed!)
+    const titleMethods = [
+        // Method 1: AllOrigins Proxy + YouTube oEmbed ( paling reliable )
+        async (videoId) => {
+            const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+            const res = await fetch(proxyUrl);
+            const data = await res.json();
+            const json = JSON.parse(data.contents);
+            return json.title;
+        },
+        
+        // Method 2: Noembed (super fast)
+        async (videoId) => {
+            const res = await fetch(`https://noembed.com/embed?dataType=json&url=https://www.youtube.com/watch?v=${videoId}`);
+            const data = await res.json();
+            return data.title;
+        },
+        
+        // Method 3: YoutubeApi (backup)
+        async (videoId) => {
+            const res = await fetch(`https://www.youtube.com/oembed?url=https://youtu.be/${videoId}&format=json`);
+            const data = await res.json();
+            return data.title;
+        }
+    ];
 
-.video-title.loading::after {
-    content: ' ⏳';
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-/* Loading Indicator */
-.loading-indicator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    color: rgba(255,255,255,0.9);
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding: 20px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    animation: fadeInUp 0.5s ease-out;
-}
-
-.loading-indicator.hidden {
-    display: none;
-}
-
-/* Responsive video title */
-@media (max-width: 768px) {
-    .video-title {
-        font-size: 0.85rem;
-        padding: 15px 15px 20px;
-        max-height: 70px;
+    async function fetchYouTubeTitle(videoId) {
+        for (let method of titleMethods) {
+            try {
+                const title = await method(videoId);
+                if (title && title.length > 5) {
+                    return title;
+                }
+            } catch (e) {
+                console.log('Method failed:', e.message.slice(0,50));
+            }
+        }
+        return `🎮 Gameplay #${videoId.slice(0,8)}`;
     }
-}
+
+    // 🔥 LOAD ALL TITLES
+    async function loadVideoTitles() {
+        console.log('🔄 Loading titles for', document.querySelectorAll('[data-video-id]').length, 'videos...');
+        
+        const videoItems = document.querySelectorAll('.youtube-video[data-video-id]');
+        
+        for (let i = 0; i < videoItems.length; i++) {
+            const item = videoItems[i];
+            const videoId = item.getAttribute('data-video-id');
+            const titleEl = item.querySelector('.video-title');
+            
+            if (videoId && titleEl && titleEl.classList.contains('loading')) {
+                titleEl.innerHTML = `⏳ ${i+1}/${videoItems.length}`;
+                
+                try {
+                    const title = await fetchYouTubeTitle(videoId);
+                    titleEl.textContent = title;
+                    titleEl.classList.remove('loading');
+                    console.log(`✅ ${videoId}: "${title.substring(0,40)}..."`);
+                } catch (error) {
+                    titleEl.textContent = `🎮 Video #${videoId.slice(0,8)}`;
+                    titleEl.classList.remove('loading');
+                }
+            }
+        }
+        
+        loadingIndicator.classList.add('hidden');
+        console.log('🎉 All titles loaded successfully!');
+    }
+
+    // Start loading
+    setTimeout(loadVideoTitles, 1000);
+
+    // === FILTER SYSTEM ===
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filterValue = this.getAttribute('data-filter');
+            portfolioItems.forEach((item, index) => {
+                const category = item.classList[1];
+                if (filterValue === 'all' || category === filterValue) {
+                    setTimeout(() => item.classList.remove('hidden'), index * 60);
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // Image fallback
+    document.querySelectorAll('img').forEach(img => {
+        img.onerror = () => {
+            img.src = `https://via.placeholder.com/400x250/44786a/ffffff?text=No+Image+Available`;
+        };
+    });
+
+    // PWA-like refresh
+    window.addEventListener('online', loadVideoTitles);
+});
