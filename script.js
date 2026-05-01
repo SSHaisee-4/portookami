@@ -1,10 +1,9 @@
-// Ganti teks secara dinamis
 document.addEventListener('DOMContentLoaded', function() {
-    // Edit nama dan tagline
+    console.log('Script loaded!'); // Test
+    
     document.getElementById('nama').textContent = 'OKAMI';
     document.getElementById('tagline').textContent = 'Video Editor | Content Creator';
     
-    // Efek klik foto profil
     document.getElementById('profileImg').addEventListener('click', function() {
         this.style.transform = 'scale(0.95) rotate(5deg)';
         setTimeout(() => {
